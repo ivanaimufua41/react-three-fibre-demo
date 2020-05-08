@@ -1,0 +1,48 @@
+<html>
+	<head>
+		<title>My first three.js app</title>
+		<style>
+			body { margin: 0; }
+			canvas { display: block; }
+		</style>
+	</head>
+	<body>
+		<script src="https://threejs.org/build/three.js"></script>
+		<!-- 
+			To actually be able to display anything with three.js, we need three things: scene, camera and renderer
+		-->
+		<script>
+			var scene = new THREE.Scene();
+			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+
+			/*field of view. FOV is the extent of the scene that is seen on the display at any given moment. The value is in degrees.
+				The second one is the aspect ratio. You almost always want to use the width of the element divided by the height, or youll get the same result when you play old movies on a widescreen TV the image looks squished.
+				The next two attributes are the near and far clipping plane. What that means, is that objects further away from the camera than the value of far or closer than near wont be rendered.*/
+
+			var renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+
+			var geometry = new THREE.BoxGeometry(); // creating a shape
+			var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } ); // setting that shapes color
+			var cube = new THREE.Mesh( geometry, material ); // combine together and we have a cube
+			scene.add( cube );
+
+			camera.position.z = 5;
+
+			var animate = function () {
+					/*
+				This will create a loop that causes the renderer to draw the scene every time the screen is refreshed (on a typical screen this means 60 times per second)
+					*/
+				requestAnimationFrame( animate );
+
+				cube.rotation.x += 0.01;
+				cube.rotation.y += 0.01;
+
+				renderer.render( scene, camera );
+			};
+
+			animate();
+		</script>
+	</body>
+</html>
